@@ -10,11 +10,21 @@ import java.util.List;
 @Path("produtos")
 public class ProdutoResource {
 
-    ProdutoRepositories produtoRepositories;
+    ProdutoRepositories pr = new ProdutoRepositories();
 
     @GET
     public List<Produto> getProdutos(){
-        return ProdutoRepositories.produtos;
+        return pr.getProdutos();
+    }
+
+    @GET
+    @Path("{id}")
+    public Response getProdutoById(@PathParam("id") int id){
+        Produto produto = pr.getProdutoById(id);
+        if (produto == null){
+            return Response.status(404).entity("Produto não encontrado").build();
+        }
+        return Response.status(200).entity(produto).build();
     }
 
     @POST
@@ -22,7 +32,7 @@ public class ProdutoResource {
         if (produto == null){
             return Response.status(400).entity("Produto não pode ser nulo").build();
         }
-        ProdutoRepositories.produtos.add(produto);
+        pr.createProduto(produto);
         return Response.status(201).entity(produto).build();
     }
 
@@ -38,8 +48,9 @@ public class ProdutoResource {
 
     @DELETE
     @Path("{id}")
-    public Response updateProduto(@PathParam("id") int id){
-        ProdutoRepositories.produtos.removeIf(produto -> produto.getId() == id);
+    public Response deleteProduto(@PathParam("id") int id){
+//        ProdutoRepositories.produtos.removeIf(produto -> produto.getId() == id);
+        pr.deleteProduto(id);
         return Response.status(204).build();
     }
 }
