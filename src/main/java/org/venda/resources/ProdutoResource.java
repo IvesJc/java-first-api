@@ -1,4 +1,4 @@
-package org.venda;
+package org.venda.resources;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
@@ -7,14 +7,19 @@ import org.venda.repositories.ProdutoRepositories;
 
 import java.util.List;
 
+
+
 @Path("produtos")
 public class ProdutoResource {
 
     ProdutoRepositories pr = new ProdutoRepositories();
 
     @GET
-    public List<Produto> getProdutos(){
-        return pr.getProdutos();
+    public Response getProdutos(@QueryParam("order") String order,
+                                @QueryParam("dir") String dir,
+                                @QueryParam("limit") int limit,
+                                @QueryParam("page") int page){
+        return Response.ok(pr.getProdutos(order, dir, limit, page)).build();
     }
 
     @GET

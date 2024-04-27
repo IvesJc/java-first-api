@@ -11,6 +11,9 @@ import java.net.URI;
 /**
  * Main class.
  *
+ * @author : Ives Chiba
+ * @version : 1.0
+ *
  */
 public class Main {
     // Base URI the Grizzly HTTP server will listen on
